@@ -1,6 +1,8 @@
+'''
 import os
 
 from flask import Flask
+#from flask_sqlachemy import SQLAlchemy
 from sqlalchemy import create_engine, engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
@@ -13,3 +15,6 @@ db = scoped_session(sessionmaker(bind=engine))
 
 
 
+
+
+'''
