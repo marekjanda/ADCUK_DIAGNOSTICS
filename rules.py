@@ -36,6 +36,30 @@ LP_causes = {
 }
 '''
 
+# Define symptom relationships
+symptom_relationships = {
+    # key matches main symptom key, value is a secondary symptom dict
+    '0': {'0': secondary_symptoms['0'], '1': secondary_symptoms['1'], '2': secondary_symptoms['2'], '3': secondary_symptoms['3']},
+    '1': {'0': secondary_symptoms['4'], '1': secondary_symptoms['5']},
+    '2': {'0': secondary_symptoms['6'], '1': secondary_symptoms['4']},
+    '3': {'0': secondary_symptoms['7'], '1': secondary_symptoms['8']},
+    '4': {'0': secondary_symptoms['7'], '1': secondary_symptoms['8'], '2': secondary_symptoms['9']},
+    '5': {'0': secondary_symptoms['10'], '1': secondary_symptoms['11']},
+    '6': {'0': secondary_symptoms['12']}
+}
+
+symptom_labels = {
+    # key matches main symptom key, value is a symptom label for JS formatting
+    '0': f"{secondary_symptoms['0']},{secondary_symptoms['1']},{secondary_symptoms['2']},{secondary_symptoms['3']}",
+    '1': f"{secondary_symptoms['4']},{secondary_symptoms['5']}",
+    '2': f"{secondary_symptoms['6']},{secondary_symptoms['4']}",
+    '3': f"{secondary_symptoms['7']},{secondary_symptoms['8']}",
+    '4': f"{secondary_symptoms['7']},{secondary_symptoms['8']},{secondary_symptoms['9']}",
+    '5': f"{secondary_symptoms['10']},{secondary_symptoms['11']}",
+    '6': f"{secondary_symptoms['12']}"
+}
+
+
 # Define diagnostics rules
 diagnostics = {
     #(primary_cause, secondary_cause): {high_pressure: [], low_pressure: []}

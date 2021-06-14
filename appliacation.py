@@ -16,7 +16,7 @@ def index():
 def symptoms():
     '''Function to fetch symptoms and return as json'''
     if request.method == "GET":
-        resp = {"primary": primary_symptoms, "secondary": secondary_symptoms}
+        resp = {"primary": primary_symptoms, "secondary": secondary_symptoms, "labels": symptom_labels}
         return  jsonify(resp)
 
 

@@ -1,5 +1,6 @@
 let primarySymptoms;
 let secondarySymptoms;
+let symptomLables;
 
 const request = new XMLHttpRequest;
 request.open('GET', '/symptoms');
@@ -9,7 +10,8 @@ request.onload = () => {
   const res = JSON.parse(request.responseText);
   primarySymptoms = res.primary;
   secondarySymptoms = res.secondary;
-  console.log(res);
+  symptomLables = res.labels;
+  console.log(symptomLables[0]);
 }
 request.send()
 
@@ -372,6 +374,10 @@ Ui.Text.prototype.update = function(percent, value) {
   let message = primarySymptoms[value];
   this.el.node.textContent = message;
   this.el.center(this.parentEl);
+  const template = Handlebars.compile(document.querySelector('#Knob2').innerHTML);
+  console.log(symptomLables[value]);
+  //let secondaryKnob = template({'labels': symptomLables[value]});
+  //document.querySelector('#secondKnob').innerHTML = secondaryKnob;
 };
 
 Ui.El = function() {};
