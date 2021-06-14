@@ -30,17 +30,17 @@ secondary_symptoms = {
 HP_causes = {
     '0': "Overcharged",
     '1': "Air in system",
-    '3': "Choked liquid strainer",
-    '4': "Lack of condeser water / air",
-    '5': "Condeser scaled or dirty",
-    '6': "Compressor not fully loaded",
-    '7': "Compressor not unloading",
-    '8': "Fractured bursting disc",
-    '9': "Broken suction valve(s)",
-    '10': "Broken delivery valve(s)",
-    '11': "Partial seizure of compressor",
-    '12': "Power failure or low voltage",
-    '13': "Water / Air temperature on condeser too low", 
+    '2': "Choked liquid strainer",
+    '3': "Lack of condeser water / air",
+    '4': "Condeser scaled or dirty",
+    '5': "Compressor not fully loaded",
+    '6': "Compressor not unloading",
+    '7': "Fractured bursting disc",
+    '8': "Broken suction valve(s)",
+    '9': "Broken delivery valve(s)",
+    '10': "Partial seizure of compressor",
+    '11': "Power failure or low voltage",
+    '12': "Water / Air temperature on condeser too low", 
 }
 
 # Define Low pressure causes

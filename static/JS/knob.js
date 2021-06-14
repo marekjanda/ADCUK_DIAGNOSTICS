@@ -1,3 +1,22 @@
+let primarySymptoms;
+let secondarySymptoms;
+
+const request = new XMLHttpRequest;
+request.open('GET', '/symptoms');
+console.log(request)
+request.onload = () => {
+  console.log("Response loaded");
+  const res = JSON.parse(request.responseText);
+  primarySymptoms = res.primary;
+  secondarySymptoms = res.secondary;
+  console.log(res);
+}
+request.send()
+
+//alert("knob.js loaded")
+
+
+
 var Knob;
 Knob = function(input, ui) {
   var container = document.createElement('div');
@@ -350,7 +369,7 @@ Ui.Text.prototype.createElement = function(parentEl) {
 };
 
 Ui.Text.prototype.update = function(percent, value) {
-  let message = "Excesive liquid subcooling at condenser outlet"
+  let message = primarySymptoms[value];
   this.el.node.textContent = message;
   this.el.center(this.parentEl);
 };
