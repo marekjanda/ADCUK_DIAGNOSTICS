@@ -1,11 +1,17 @@
 import os
 
 from flask import Flask, render_template, jsonify, request
+from flask_session import Session
 
 from knowledgebase import *
 from rules import *
 
 app = Flask(__name__)
+
+# Configure session to use filesystem
+app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_TYPE"] = "filesystem"
+Session(app)
 
 @app.route("/")
 def index():
