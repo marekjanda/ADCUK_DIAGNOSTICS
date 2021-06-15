@@ -40,12 +40,12 @@ LP_causes = {
 symptom_relationships = {
     # key matches main symptom key, value is a secondary symptom dict
     '0': {'0': secondary_symptoms['0'], '1': secondary_symptoms['1'], '2': secondary_symptoms['2'], '3': secondary_symptoms['3']},
-    '1': {'0': secondary_symptoms['4'], '1': secondary_symptoms['5']},
-    '2': {'0': secondary_symptoms['6'], '1': secondary_symptoms['4']},
-    '3': {'0': secondary_symptoms['7'], '1': secondary_symptoms['8']},
-    '4': {'0': secondary_symptoms['7'], '1': secondary_symptoms['8'], '2': secondary_symptoms['9']},
-    '5': {'0': secondary_symptoms['10'], '1': secondary_symptoms['11']},
-    '6': {'0': secondary_symptoms['12']}
+    '1': {'4': secondary_symptoms['4'], '5': secondary_symptoms['5']},
+    '2': {'6': secondary_symptoms['6'], '4': secondary_symptoms['4']},
+    '3': {'7': secondary_symptoms['7'], '8': secondary_symptoms['8']},
+    '4': {'7': secondary_symptoms['7'], '8': secondary_symptoms['8'], '9': secondary_symptoms['9']},
+    '5': {'10': secondary_symptoms['10'], '11': secondary_symptoms['11']},
+    '6': {'12': secondary_symptoms['12']}
 }
 
 symptom_labels = {
@@ -125,6 +125,6 @@ diagnostics = {
     },
     ("6","12"): {
         'HP': [HP_causes['0'], HP_causes['1'], HP_causes['2'], HP_causes['12']],
-        'LP': [LP_causes['8']]
+        'LP': [LP_causes['8'], LP_causes['12']]
     }
 }

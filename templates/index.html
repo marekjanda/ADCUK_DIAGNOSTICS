@@ -8,7 +8,7 @@
         
         <link rel="shortcut icon" href="#" />
 
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css' ) }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css' ) }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/customize-presets.css' ) }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/p1.css' ) }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/p2.css' ) }}">
@@ -53,23 +53,54 @@
           </div>
     </nav>
 
-<ul class="row">
-    <p><h2>Select Symptoms</h2></p>
-    <li class="col col-sm-6 col-lg-6">
-        <input class="preset5" id="MainCause" type="range" data-width="600" data-height="600" data-angleOffset="128" data-angleRange="310" data-labels="Symptom1,Symptom2,Symptom3, Symptom4,Symptom5,Symptom6,Symptom6" />
-    </li>    
-    <li class=" col col-sm-6 col-lg-6" id="secondKnob">
-        <h1>Select Secondary Symptoms</h1>
-    </li>
-</ul>
 <div class="row">
-    <div class="col col-sm-6 col-lg-6">
+    <p><h2>Select Symptoms</h2></p>
+    
+    <div class="col col-sm-12 col-lg-12" style="text-align: center; justify-content: center;">
         <h3>Main Symptom</h3>
+        <input class="preset5" id="MainCause" type="range" data-width="600" data-height="600" data-angleOffset="128" data-angleRange="310" data-labels="Symptom1,Symptom2,Symptom3, Symptom4,Symptom5,Symptom6,Symptom6" />
+        <h3>Secondary Symptom</h3>
+        <select id="secondSymptomSelect" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" >
+            <option selected style="text-align: center;">Select Second Symptom</option>
+        </select>  
+    </div>    
+    
+</div>
+
+<div class="row">
+    <div class="col col-sm-12">
+        <!--<button id='start' onclick="alertvalue()">Diagnose</button>-->
+        <button type="button" onclick="alertvalue()" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Diagnose
+        </button> 
     </div>
 </div>
-<ul class="row">
-    <li class="column"><button id='start' onclick="alertvalue()">Diagnose</button></li>
-</ul>
+
+<!-- Vertically centered scrollable modal -->
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title" id="exampleModalLabel">Diagnosis</h3>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="row" style="justify-content: center !important; text-align: center !important;">
+                <h2>In case of high pressure: </h2>
+                <div class="row" id="HP"></div>
+            </div>
+            <div class="row" style="justify-content: center !important; text-align: center !important;">
+                <h2>In case of low pressure: </h2>
+                <div class="row" id="LP"></div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
 <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
@@ -113,9 +144,60 @@ new Knob(document.getElementById('p6'), new Ui.P6());
 
     //Alert selection
     function alertvalue() {
+        let spinnerTemplate = Handlebars.compile(document.querySelector("#spinners").innerHTML);
+        let spinners = spinnerTemplate();
+        document.getElementById("HP").innerHTML = spinners;
+        document.getElementById("LP").innerHTML = spinners;
+
         let mainCause = document.getElementById('MainCause');
-        let secondaryCause = document.getElementById('SecondaryCause');
-        alert("Main Cause: " + mainCause.value + "\n" + "Secondary Cause: " + secondaryCause.value);
+        let secondaryCause = document.getElementById('secondSymptomSelect');
+        //alert("Main Cause: " + mainCause.value + "\n" + "Secondary Cause: " + secondaryCause.value);
+
+        // Create xmlhttprequest
+        const diagnosticRequest = new XMLHttpRequest;
+        diagnosticRequest.open('POST', '/diagnose');
+        console.log("Diagnostic Request opened");
+        diagnosticRequest.onload = () => {
+            console.log('Response loaded');
+            // Parse the response text
+            const res = JSON.parse(diagnosticRequest.responseText);
+            console.log(res);
+            // Check the response
+            //alert(res.status)
+            HPTempalte = Handlebars.compile(document.querySelector('#hpCauses').innerHTML);
+            LPTempalte = Handlebars.compile(document.querySelector('#lpCauses').innerHTML);
+            let hps = res.HP;
+            let lps = res.LP;
+            document.getElementById("HP").innerHTML = '';
+            document.getElementById("LP").innerHTML = '';
+            if (hps.length == 0) {
+                let diagnosis = HPTempalte({'cause': 'No Known Causes'})
+                document.getElementById("HP").innerHTML = diagnosis;
+            }
+            if (lps.length == 0) {
+                let diagnosis = LPTempalte({'cause': 'No Known Causes'})
+                document.getElementById("LP").innerHTML = diagnosis;
+            }
+            
+            hps.forEach((cause) => {
+                let diagnosis = HPTempalte({'cause': cause})
+                document.getElementById("HP").innerHTML += diagnosis;
+            })
+
+            lps.forEach((cause) => {
+                let diagnosis = LPTempalte({'cause': cause})
+                document.getElementById("LP").innerHTML += diagnosis;
+            })
+            return false;
+        };
+        const data = new FormData();
+        console.log('FormData created');
+        data.append('primary', mainCause.value);
+        data.append('secondary', secondaryCause.value);
+        console.log('Data appended');
+        diagnosticRequest.send(data);
+        console.log('Diagnostic request sent');
+        return false;
     }
     
 
@@ -212,9 +294,45 @@ new Knob(document.getElementById('p6'), new Ui.P6());
 
 <script id="Knob2" type="text/x-handlebars-template">
     {% raw -%}
-    
-    <input class="preset1" id="SecondaryCause" type="range" data-width="600" data-height="600" data-angleOffset="270" data-angleRange="180" data-labels="{{ labels }}" />
+    <option value="{{ symptomID }}">{{ symptom }}</option>
     {%- endraw %}    
+</script>
+
+<script id="hpCauses" type="text/x-handlebars-template">
+    {% raw -%}
+    <div class="col col-sm-10 col-lg-4"><h5>{{ cause }}</h5></div>
+    {%- endraw %}    
+</script>
+<script id="lpCauses" type="text/x-handlebars-template">
+    {% raw -%}
+    <div class="col col-sm-10 col-lg-4"><h5>{{ cause }}</h5></div>
+    {%- endraw %}    
+</script>
+
+<script id="spinners" type="text/x-handlebars-template">
+    {% raw -%}
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="spinner-border text-secondary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="spinner-border text-success" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="spinner-border text-danger" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="spinner-border text-warning" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="spinner-border text-info" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="spinner-border text-light" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    {%- endraw %}
 </script>
 
 <svg>

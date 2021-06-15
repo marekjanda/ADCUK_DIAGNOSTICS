@@ -6,7 +6,7 @@ primary_symptoms = {
     '3': "High Delivery Guage",
     '4': "Low Delivery Gauge",
     '5': "Power Absorbed by Compressor",
-    '6': "Excessive Liquid Subcooling"
+    '6': "Excessive Liquid Subcooling at Condeser Outlet"
 }
 
 # Define Secondary Symptoms
