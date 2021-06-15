@@ -40,5 +40,3 @@ def diagnose():
         resp = {'status': "Data received successfully", 'HP': diagnosis['HP'], 'LP': diagnosis['LP']}
         return jsonify(resp)
 
-
-app.run()
