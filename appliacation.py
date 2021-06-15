@@ -25,6 +25,8 @@ def diagnose():
     if request.method == "POST":
         primary = request.form.get('primary')
         secondary = request.form.get('secondary')
+        if secondary == 'Select Second Symptom':
+            resp = {'status': "ERROR"}
         #print(primary_symptoms[primary])
         #print(f"{secondary}:  {secondary_symptoms[secondary]}")
         diagnosis = diagnostics[(primary,secondary)]

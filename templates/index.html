@@ -60,8 +60,9 @@
         <h3>Main Symptom</h3>
         <input class="preset5" id="MainCause" type="range" data-width="600" data-height="600" data-angleOffset="128" data-angleRange="310" data-labels="Symptom1,Symptom2,Symptom3, Symptom4,Symptom5,Symptom6,Symptom6" />
         <h3>Secondary Symptom</h3>
+        <h5 id="error" style="color: tomato;"></h5>
         <select id="secondSymptomSelect" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" >
-            <option selected style="text-align: center;">Select Second Symptom</option>
+            <option selected style="text-align: center;"><h3>Select Second Symptom</h3></option>
         </select>  
     </div>    
     
@@ -82,7 +83,7 @@
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
       <div class="modal-content">
         <div class="modal-header">
-          <h3 class="modal-title" id="exampleModalLabel">Diagnosis</h3>
+          <h3 class="modal-title" id="modalTitla">Diagnosis</h3>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -96,7 +97,7 @@
             </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button id="closeBtn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         </div>
       </div>
     </div>
@@ -148,9 +149,18 @@ new Knob(document.getElementById('p6'), new Ui.P6());
         let spinners = spinnerTemplate();
         document.getElementById("HP").innerHTML = spinners;
         document.getElementById("LP").innerHTML = spinners;
-
+        
         let mainCause = document.getElementById('MainCause');
         let secondaryCause = document.getElementById('secondSymptomSelect');
+        
+        if (secondaryCause.value == 'Select Second Symptom') {
+            document.getElementById('error').innerHTML ='Please Select Secondary Symptom!';
+            
+            document.getElementById("HP").innerHTML = '<h5 id="error" style="color: tomato;">Please Select Secondary Symptom!</h5>';
+            document.getElementById("LP").innerHTML = '<h5 id="error" style="color: tomato;">Please Select Secondary Symptom!</h5>';
+            return false;
+        }
+        console.log(secondaryCause.value);
         //alert("Main Cause: " + mainCause.value + "\n" + "Secondary Cause: " + secondaryCause.value);
 
         // Create xmlhttprequest
@@ -158,10 +168,17 @@ new Knob(document.getElementById('p6'), new Ui.P6());
         diagnosticRequest.open('POST', '/diagnose');
         console.log("Diagnostic Request opened");
         diagnosticRequest.onload = () => {
+            document.getElementById('error').innerHTML = '';
             console.log('Response loaded');
             // Parse the response text
             const res = JSON.parse(diagnosticRequest.responseText);
             console.log(res);
+            if (res.status == 'ERROR') {
+                document.getElementById('error').innerHTML ='Please Select Secondary Symptom!';
+                document.getElementById("HP").innerHTML = '<h5 id="error" style="color: tomato;">Please Select Secondary Symptom!</h5>';
+                document.getElementById("LP").innerHTML = '<h5 id="error" style="color: tomato;">Please Select Secondary Symptom!</h5>';
+                return false;
+            }
             // Check the response
             //alert(res.status)
             HPTempalte = Handlebars.compile(document.querySelector('#hpCauses').innerHTML);
