@@ -16,11 +16,12 @@ Session(app)
 @app.route("/")
 def index():
     ''' Renders index page '''
-    return render_template("index.html")
+    main_labels = f"{primary_symptoms['0']},{primary_symptoms['1']},{primary_symptoms['2']},{primary_symptoms['3']},{primary_symptoms['4']},{primary_symptoms['5']},{primary_symptoms['6']}"
+    return render_template("index.html", main_labels=primary_symptoms)
 
 @app.route("/symptoms", methods=["POST", "GET"])
 def symptoms():
-    '''Function to fetch symptoms and return as json'''
+    '''Function to fetch symptoms and return them in json'''
     if request.method == "GET":
         resp = {"primary": primary_symptoms, "secondary": symptom_relationships}
         return  jsonify(resp)
