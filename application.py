@@ -34,10 +34,11 @@ def diagnose():
         secondary = request.form.get('secondary')
         if secondary == 'Select Second Symptom':
             resp = {'status': "ERROR"}
-        #print(primary_symptoms[primary])
-        #print(f"{secondary}:  {secondary_symptoms[secondary]}")
-        diagnosis = diagnostics[(primary,secondary)]
-        #print(diagnosis)
-        resp = {'status': "Data received successfully", 'HP': diagnosis['HP'], 'LP': diagnosis['LP']}
+        else:
+            #print(primary_symptoms[primary])
+            #print(f"{secondary}:  {secondary_symptoms[secondary]}")
+            diagnosis = diagnostics[(primary,secondary)]
+            #print(diagnosis)
+            resp = {'status': "Data received successfully", 'HP': diagnosis['HP'], 'LP': diagnosis['LP']}
         return jsonify(resp)
 
