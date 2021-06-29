@@ -2,6 +2,7 @@ import os
 
 from flask import Flask, render_template, jsonify, request
 from flask_session import Session
+from user_agents import parse
 
 from knowledgebase import *
 from rules import *
@@ -16,8 +17,14 @@ Session(app)
 @app.route("/")
 def index():
     ''' Renders index page '''
+    user_agent = parse(request.headers.get('User-Agent'))
+    
+    mobile = user_agent.is_mobile # To be replaced by mobile device detection function
+    print(f"Mobile: {mobile}")
     main_labels = f"{primary_symptoms['0']},{primary_symptoms['1']},{primary_symptoms['2']},{primary_symptoms['3']},{primary_symptoms['4']},{primary_symptoms['5']},{primary_symptoms['6']}"
-    return render_template("index.html", main_labels=primary_symptoms)
+    if mobile:
+        return render_template("index.html", mobile=mobile, main_labels=primary_symptoms)
+    return render_template("index.html", mobile=mobile, main_labels=main_labels)
 
 @app.route("/symptoms", methods=["POST", "GET"])
 def symptoms():
