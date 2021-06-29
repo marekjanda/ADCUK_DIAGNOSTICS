@@ -59,7 +59,7 @@
     <div class="col col-sm-12 col-lg-12" style="text-align: center; justify-content: center;">
         <h3>Main Symptom</h3>
         {% if mobile %}
-            <input class="preset5" id="MainCause" type="range" data-width="600" data-height="600" data-angleOffset="128" data-angleRange="310" data-labels="Symptom1,Symptom2,Symptom3, Symptom4,Symptom5,Symptom6,Symptom6" />
+            <input class="preset5" id="MainCause" type="range" data-width="350" data-height="350" data-angleOffset="128" data-angleRange="310" data-labels="Symptom1,Symptom2,Symptom3, Symptom4,Symptom5,Symptom6,Symptom6" />
         {% else %}
             <input id="MainCause" class="preset1" type="range" data-width="800" data-height="800" data-angleOffset="270" data-angleRange="310" data-labels="{{ main_labels }}" />
         {% endif %}
@@ -226,9 +226,9 @@ new Knob(document.getElementById('p6'), new Ui.P6());
         Array.prototype.slice.call(document.getElementsByClassName('preset' + i)).forEach(function(el) {
             new Knob(el, new Ui['P' + i]());
             el.addEventListener('change', function  () {
-              console.log(el.value)
+                //update_options(el.value);
+                console.log(el.value)
             })
-            
         })
     }
 
