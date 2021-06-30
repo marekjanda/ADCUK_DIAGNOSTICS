@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, jsonify, request, redirect, url_for
 from flask_session import Session
 from user_agents import parse
 
@@ -14,7 +14,7 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
-@app.route("/")
+@app.route("/", methods=["POST", "GET"])
 def index():
     ''' Renders index page '''
     user_agent = parse(request.headers.get('User-Agent'))
@@ -25,6 +25,10 @@ def index():
     if mobile:
         return render_template("index.html", mobile=mobile, main_labels=primary_symptoms)
     return render_template("index.html", mobile=mobile, main_labels=main_labels)
+
+@app.route("/secondarysymptoms/<p>", methods=["POST", "GET"])
+def secondarysymptoms(p):
+    return render_template("secondary.html", primary=primary_symptoms[p])
 
 @app.route("/symptoms", methods=["POST", "GET"])
 def symptoms():

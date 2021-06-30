@@ -1,52 +1,6 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">       
+{% extends 'layout.html' %}
 
-        <title>ADC UK Diagnostics</title>
-        
-        <link rel="shortcut icon" href="#" />
-
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css' ) }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/customize-presets.css' ) }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/p1.css' ) }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/p2.css' ) }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/p3.css' ) }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/p4.css' ) }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/p5.css' ) }}">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-
-        <script type="text/javascript" src="{{ url_for('static', filename='JS/knob.js' ) }}"></script>
-        <script type="text/javascript" src="{{ url_for('static', filename='JS/p1.js' ) }}"></script>
-        <script type="text/javascript" src="{{ url_for('static', filename='JS/p2.js' ) }}"></script>
-        <script type="text/javascript" src="{{ url_for('static', filename='JS/p3.js' ) }}"></script>
-        <script type="text/javascript" src="{{ url_for('static', filename='JS/p4.js' ) }}"></script>
-        <script type="text/javascript" src="{{ url_for('static', filename='JS/p5.js' ) }}"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
-        
-
-
-        
-        <style>
-            .p1 circle {
-                filter: url(#dropshadow);
-            }
-
-            .p3 path {
-                filter: url(#inner-shadow)
-            }
-
-            .p6 text {
-            font-size: 16px !important;
-            fill: #57C7B6;
-            font-weight: 300;
-            }
-
-        </style>
-    </head>
-<body>
-
+{% block body %}
     <nav class="navbar navbar-light" style="background-color: #40a3f3;">
         <div class="container-fluid">
             <a class="navbar-brand" style="color: white;">ADC UK Diagnostics Tool</a>
@@ -54,20 +8,20 @@
     </nav>
 
 <div class="row">
-    <p><h2>Select Symptoms</h2></p>
+    <p><h3>Select Symptoms</h3></p>
     
     <div class="col col-sm-12 col-lg-12" style="text-align: center; justify-content: center;">
-        <h3>Main Symptom</h3>
+        <div id='ms'><h4>Main Symptom</h4></div>
         {% if mobile %}
             <input class="preset5" id="MainCause" type="range" data-width="350" data-height="350" data-angleOffset="128" data-angleRange="310" data-labels="Symptom1,Symptom2,Symptom3, Symptom4,Symptom5,Symptom6,Symptom6" />
+            <h3>Secondary Symptom</h3>
+            <h5 id="error" style="color: tomato;"></h5>
+            <select id="secondSymptomSelect" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" >
+                <option selected style="text-align: center;"><h3>Select Second Symptom</h3></option>
+            </select>  
         {% else %}
             <input id="MainCause" class="preset1" type="range" data-width="800" data-height="800" data-angleOffset="270" data-angleRange="310" data-labels="{{ main_labels }}" />
         {% endif %}
-        <h3>Secondary Symptom</h3>
-        <h5 id="error" style="color: tomato;"></h5>
-        <select id="secondSymptomSelect" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" >
-            <option selected style="text-align: center;"><h3>Select Second Symptom</h3></option>
-        </select>  
     </div>    
     
 </div>
@@ -75,9 +29,15 @@
 <div class="row">
     <div class="col col-sm-12">
         <!--<button id='start' onclick="alertvalue()">Diagnose</button>-->
-        <button type="button" onclick="alertvalue()" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            Diagnose
-        </button> 
+        {% if mobile %}
+            <button type="button" onclick="alertvalue()" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Diagnose
+            </button> 
+        {% else %}
+            <a href="{{ url_for('secondarysymptoms', p=0) }}" id="secondSymptomURL">
+                <button type="button" class="btn btn-primary btn-lg">Next</button>
+            </a> 
+        {% endif %}
     </div>
 </div>
 
@@ -106,310 +66,4 @@
       </div>
     </div>
   </div>
-
-
-<script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
-
-<script type="text/javascript">
-Ui.P6 = function() {};
-
-Ui.P6.prototype = Object.create(Ui.prototype);
-
-Ui.P6.prototype.createElement = function() {
-  Ui.prototype.createElement.apply(this, arguments);  
-  this.addComponent(new Ui.Pointer({
-    type: 'Arc',
-    size: 40,
-    outerRadius: this.width / 2.6,
-    innerRadius: this.width / 2.6 - this.width / 7,
-    angleoffset: this.options.angleoffset
-  }));
-  // this.addComponent(new Ui.Text());
-  this.addComponent(new Ui.Scale(this.merge(this.options, {
-    drawScale: false,
-    drawDial: true,
-    radius: this.width/2.5
-  })));
-  var circle = new Ui.El.Circle(this.width / 2.1, this.width / 2, this.height / 2);
-  this.el.node.appendChild(circle.node);
-  this.el.node.setAttribute("class", "p5 p6");
-};
-
-new Knob(document.getElementById('p6'), new Ui.P6());    
-
-</script>
-
-
-<script type="text/javascript">
-
-    /**
-     * Just a lazy way to convert all inputs into knobs.
-     * Normally you would write `new Knob(document.getElementById('someIdHere'), new Ui.P1());` to create a knob.
-     */
-
-    //Alert selection
-    function alertvalue() {
-        let spinnerTemplate = Handlebars.compile(document.querySelector("#spinners").innerHTML);
-        let spinners = spinnerTemplate();
-        document.getElementById("HP").innerHTML = spinners;
-        document.getElementById("LP").innerHTML = spinners;
-        
-        let mainCause = document.getElementById('MainCause');
-        let secondaryCause = document.getElementById('secondSymptomSelect');
-        
-        if (secondaryCause.value == 'Select Second Symptom') {
-            document.getElementById('error').innerHTML ='Please Select Secondary Symptom!';
-            
-            document.getElementById("HP").innerHTML = '<h5 id="error" style="color: tomato;">Please Select Secondary Symptom!</h5>';
-            document.getElementById("LP").innerHTML = '<h5 id="error" style="color: tomato;">Please Select Secondary Symptom!</h5>';
-            return false;
-        }
-        console.log(secondaryCause.value);
-        //alert("Main Cause: " + mainCause.value + "\n" + "Secondary Cause: " + secondaryCause.value);
-
-        // Create xmlhttprequest
-        const diagnosticRequest = new XMLHttpRequest;
-        diagnosticRequest.open('POST', '/diagnose');
-        console.log("Diagnostic Request opened");
-        diagnosticRequest.onload = () => {
-            document.getElementById('error').innerHTML = '';
-            console.log('Response loaded');
-            // Parse the response text
-            const res = JSON.parse(diagnosticRequest.responseText);
-            console.log(res);
-            if (res.status == 'ERROR') {
-                document.getElementById('error').innerHTML ='Please Select Secondary Symptom!';
-                document.getElementById("HP").innerHTML = '<h5 id="error" style="color: tomato;">Please Select Secondary Symptom!</h5>';
-                document.getElementById("LP").innerHTML = '<h5 id="error" style="color: tomato;">Please Select Secondary Symptom!</h5>';
-                return false;
-            }
-            // Check the response
-            //alert(res.status)
-            HPTempalte = Handlebars.compile(document.querySelector('#hpCauses').innerHTML);
-            LPTempalte = Handlebars.compile(document.querySelector('#lpCauses').innerHTML);
-            let hps = res.HP;
-            let lps = res.LP;
-            document.getElementById("HP").innerHTML = '';
-            document.getElementById("LP").innerHTML = '';
-            if (hps.length == 0) {
-                let diagnosis = HPTempalte({'cause': 'No Known Causes'})
-                document.getElementById("HP").innerHTML = diagnosis;
-            }
-            if (lps.length == 0) {
-                let diagnosis = LPTempalte({'cause': 'No Known Causes'})
-                document.getElementById("LP").innerHTML = diagnosis;
-            }
-            
-            hps.forEach((cause) => {
-                let diagnosis = HPTempalte({'cause': cause})
-                document.getElementById("HP").innerHTML += diagnosis;
-            })
-
-            lps.forEach((cause) => {
-                let diagnosis = LPTempalte({'cause': cause})
-                document.getElementById("LP").innerHTML += diagnosis;
-            })
-            return false;
-        };
-        const data = new FormData();
-        console.log('FormData created');
-        data.append('primary', mainCause.value);
-        data.append('secondary', secondaryCause.value);
-        console.log('Data appended');
-        diagnosticRequest.send(data);
-        console.log('Diagnostic request sent');
-        return false;
-    }
-    
-
-    for (var i = 1; i < 6; i++) {
-        Array.prototype.slice.call(document.getElementsByClassName('preset' + i)).forEach(function(el) {
-            new Knob(el, new Ui['P' + i]());
-            el.addEventListener('change', function  () {
-                //update_options(el.value);
-                console.log(el.value)
-            })
-        })
-    }
-
-    /**
-     * Create a simple slider with just a scale
-     */
-    var ScaleExample = function() {};
-
-    ScaleExample.prototype = Object.create(Ui.prototype);
-
-    ScaleExample.prototype.createElement = function() {
-
-        Ui.prototype.createElement.apply(this, arguments);
-        this.addComponent(new Ui.Scale({
-            drawScale: true,
-            drawDial: false,
-            steps: 30,
-            tickWidth: 10,
-            tickHeight: 10,
-            type: 'Triangle'
-        }));
-        this.el.node.setAttribute("class", "scaleExample");
-    }
-
-    new Knob(document.getElementsByClassName('scaleExample')[0], new ScaleExample());
-
-    /**
-     * Create a simple slider with just a dial
-     */
-    var DialExample = function() {};
-
-    DialExample.prototype = Object.create(Ui.prototype);
-
-    DialExample.prototype.createElement = function() {
-
-        Ui.prototype.createElement.apply(this, arguments);
-        this.addComponent(new Ui.Scale({
-            drawScale: false,
-            drawDial: true,
-            steps: 10
-        }));
-        this.el.node.setAttribute("class", "dialExample");
-    };
-    new Knob(document.getElementsByClassName('dialExample')[0], new DialExample());
-
-    /**
-     * Create a simple slider with just a pointer
-     */
-    var PointerExample = function() {};
-
-    PointerExample.prototype = Object.create(Ui.prototype);
-
-    PointerExample.prototype.createElement = function() {
-
-        Ui.prototype.createElement.apply(this, arguments);
-        this.addComponent(new Ui.Pointer({
-            type: 'Circle',
-            pointerWidth: 3,
-            pointerHeight: this.width / 5,
-            offset: this.width / 2 - this.width / 3.3 - this.width / 10
-        }));
-        this.el.node.setAttribute("class", "pointerExample");
-    };
-    new Knob(document.getElementsByClassName('pointerExample')[0], new PointerExample());
-
-    /**
-     * Create a simple slider with just an acr
-     */
-    var Arcxample = function() {};
-
-    Arcxample.prototype = Object.create(Ui.prototype);
-
-    Arcxample.prototype.createElement = function() {
-
-        Ui.prototype.createElement.apply(this, arguments);
-        this.addComponent(new Ui.Arc({
-            arcWidth: this.width / 10
-        }));
-        this.el.node.setAttribute("class", "arcExample");
-    };
-    new Knob(document.getElementsByClassName('arcExample')[0], new Arcxample());
-
-</script>
-
-<script id="Knob2" type="text/x-handlebars-template">
-    {% raw -%}
-    <option value="{{ symptomID }}">{{ symptom }}</option>
-    {%- endraw %}    
-</script>
-
-<script id="hpCauses" type="text/x-handlebars-template">
-    {% raw -%}
-    <div class="col col-sm-10 col-lg-4"><h5>{{ cause }}</h5></div>
-    {%- endraw %}    
-</script>
-<script id="lpCauses" type="text/x-handlebars-template">
-    {% raw -%}
-    <div class="col col-sm-10 col-lg-4"><h5>{{ cause }}</h5></div>
-    {%- endraw %}    
-</script>
-
-<script id="spinners" type="text/x-handlebars-template">
-    {% raw -%}
-        <div class="spinner-border text-primary" role="status">
-            <span class="visually-hidden">Loading...</span>
-        </div>
-        <div class="spinner-border text-secondary" role="status">
-            <span class="visually-hidden">Loading...</span>
-        </div>
-        <div class="spinner-border text-success" role="status">
-            <span class="visually-hidden">Loading...</span>
-        </div>
-        <div class="spinner-border text-danger" role="status">
-            <span class="visually-hidden">Loading...</span>
-        </div>
-        <div class="spinner-border text-warning" role="status">
-            <span class="visually-hidden">Loading...</span>
-        </div>
-        <div class="spinner-border text-info" role="status">
-            <span class="visually-hidden">Loading...</span>
-        </div>
-        <div class="spinner-border text-light" role="status">
-            <span class="visually-hidden">Loading...</span>
-        </div>
-    {%- endraw %}
-</script>
-
-<svg>
-    <filter id="dropshadow" height="150%" width="150%">
-        <feGaussianBlur in="SourceAlpha" stdDeviation="2"/>
-        <feOffset dx="0" dy="3" result="offsetblur"/>
-        <feMerge>
-            <feMergeNode/>
-            <feMergeNode in="SourceGraphic"/>
-        </feMerge>
-    </filter>
-    <filter id='inner-shadow'>
-
-        <!-- Shadow Offset -->
-        <feOffset
-                dx='0'
-                dy='5'
-                />
-
-        <!-- Shadow Blur -->
-        <feGaussianBlur
-                stdDeviation='5'
-                result='offset-blur'
-                />
-
-        <!-- Invert the drop shadow
-             to create an inner shadow -->
-        <feComposite
-                operator='out'
-                in='SourceGraphic'
-                in2='offset-blur'
-                result='inverse'
-                />
-
-        <!-- Color & Opacity -->
-        <feFlood
-                flood-color='black'
-                flood-opacity='0.75'
-                result='color'
-                />
-
-        <!-- Clip color inside shadow -->
-        <feComposite
-                operator='in'
-                in='color'
-                in2='inverse'
-                result='shadow'
-                />
-
-        <!-- Put shadow over original object -->
-        <feComposite
-                operator='over'
-                in='shadow'
-                in2='SourceGraphic'
-                />
-    </filter>
-</svg>
-</body>
-</html>
+{% endblock %}

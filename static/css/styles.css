@@ -11,7 +11,7 @@ h2 {
 
 h3 {
   font-style: italic;
-  color: #40a3f3 !important;
+  color: black !important;
 }
 
 p {
@@ -77,3 +77,9 @@ text {
 li {
   list-style: none;
 }
+
+#ms {
+  color: #40a3f3;
+  font-style: italic;
+}
+
