@@ -18,7 +18,7 @@ Session(app)
 def index():
     ''' Renders index page '''
     user_agent = parse(request.headers.get('User-Agent'))
-    
+    #mobile = True
     mobile = user_agent.is_mobile
     print(f"Mobile: {mobile}")
     main_labels = f"{primary_symptoms['0']},{primary_symptoms['1']},{primary_symptoms['2']},{primary_symptoms['3']},{primary_symptoms['4']},{primary_symptoms['5']},{primary_symptoms['6']}"
