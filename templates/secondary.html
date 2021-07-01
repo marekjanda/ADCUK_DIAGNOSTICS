@@ -1,5 +1,53 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-<h1>Secondary symptoms to {{ primary }}</h1>
+<div class="row">
+    <h3 id="sectionTitle" data-primary="{{ p }}">Select Secondary Symptoms</h3>
+    
+    <div class="col col-sm-12 col-lg-12" style="text-align: center; justify-content: center;">
+        <div id='ms'><h4>Secondary Symptom</h4></div>
+            <input id="secondSymptomSelect" class="preset1" type="range" data-width="800" data-height="800" data-angleOffset="{{ offset }}" data-angleRange="{{ angle }}" data-labels="{{ secondary_labels }}" />
+    </div>    
+    
+</div>
+
+<div class="row">
+    <div class="col col-sm-12">
+        <!--<button id='start' onclick="alertvalue()">Diagnose</button>-->
+        <button type="button" onclick="alertvalue()" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Diagnose
+        </button> 
+    </div>
+</div>
+
+<!-- Vertically centered scrollable modal -->
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title" id="modalTitla">Diagnosis</h3>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="row" style="justify-content: center !important; text-align: center !important;">
+                <h2>In case of high pressure: </h2>
+                <div class="row" id="HP"></div>
+            </div>
+            <div class="row" style="justify-content: center !important; text-align: center !important;">
+                <h2>In case of low pressure: </h2>
+                <div class="row" id="LP"></div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button id="closeBtn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+</div>
 {% endblock %}
+
+{% block extrajs %}
+    <script type="text/javascript" src="{{ url_for('static', filename='JS/desktopDiagnosis.js' ) }}"></script>
+{% endblock %}
+

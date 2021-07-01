@@ -20,7 +20,7 @@ def index():
     user_agent = parse(request.headers.get('User-Agent'))
     #mobile = True
     mobile = user_agent.is_mobile
-    print(f"Mobile: {mobile}")
+    #print(f"Mobile: {mobile}")
     main_labels = f"{primary_symptoms['0']},{primary_symptoms['1']},{primary_symptoms['2']},{primary_symptoms['3']},{primary_symptoms['4']},{primary_symptoms['5']},{primary_symptoms['6']}"
     if mobile:
         return render_template("index.html", mobile=mobile, main_labels=primary_symptoms)
@@ -28,7 +28,14 @@ def index():
 
 @app.route("/secondarysymptoms/<p>", methods=["POST", "GET"])
 def secondarysymptoms(p):
-    return render_template("secondary.html", primary=primary_symptoms[p])
+    secondary = ordered_symptom_relationships[p]
+    angle = graphics[p]['angle']
+    offset = graphics[p]['offset']
+    labels = ""
+    for key in secondary:
+        labels += f"{secondary[key]},"
+    labels = labels[:-1]
+    return render_template("secondary.html", secondary_labels=labels, angle=angle, offset=offset, primary=primary_symptoms[p], p=p)
 
 @app.route("/symptoms", methods=["POST", "GET"])
 def symptoms():

@@ -2,7 +2,7 @@
 
 {% block body %}
 <div class="row">
-    <p><h3>Select Symptoms</h3></p>
+    <p id='sectionTitle'><h3>Select Symptoms</h3></p>
     
     <div class="col col-sm-12 col-lg-12" style="text-align: center; justify-content: center;">
         <div id='ms'><h4>Main Symptom</h4></div>
@@ -60,4 +60,12 @@
       </div>
     </div>
   </div>
+{% endblock %}
+
+{% block extrajs %}
+    {% if mobile %}
+        <script type="text/javascript" src="{{ url_for('static', filename='JS/mobileDiagnosis.js' ) }}"></script>
+    {% else %}
+        <script type="text/javascript" src="{{ url_for('static', filename='JS/desktopDiagnosis.js' ) }}"></script>
+    {% endif %}
 {% endblock %}

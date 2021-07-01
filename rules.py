@@ -48,6 +48,17 @@ symptom_relationships = {
     '6': {'12': secondary_symptoms['12']}
 }
 
+ordered_symptom_relationships = {
+    # key matches main symptom key, value is a secondary symptom dict
+    '0': {'0': secondary_symptoms['0'], '1': secondary_symptoms['1'], '2': secondary_symptoms['2'], '3': secondary_symptoms['3']},
+    '1': {'0': secondary_symptoms['4'], '1': secondary_symptoms['5']},
+    '2': {'0': secondary_symptoms['6'], '1': secondary_symptoms['4']},
+    '3': {'0': secondary_symptoms['7'], '1': secondary_symptoms['8']},
+    '4': {'0': secondary_symptoms['7'], '1': secondary_symptoms['8'], '2': secondary_symptoms['9']},
+    '5': {'0': secondary_symptoms['10'], '1': secondary_symptoms['11']},
+    '6': {'0': secondary_symptoms['12']}
+}
+
 symptom_labels = {
     # key matches main symptom key, value is a symptom label for JS formatting
     '0': f"{secondary_symptoms['0']},{secondary_symptoms['1']},{secondary_symptoms['2']},{secondary_symptoms['3']}",
@@ -57,6 +68,18 @@ symptom_labels = {
     '4': f"{secondary_symptoms['7']},{secondary_symptoms['8']},{secondary_symptoms['9']}",
     '5': f"{secondary_symptoms['10']},{secondary_symptoms['11']}",
     '6': f"{secondary_symptoms['12']}"
+}
+
+# Define secondary symptom selection angles and offsets
+graphics = {
+    # key matches main symptom key, value is a dict with 'offset; and 'angle' key
+    '0': {'angle': 180, 'offset': -90},
+    '1': {'angle': 90, 'offset': -45},
+    '2': {'angle': 90, 'offset': -45},
+    '3': {'angle': 90, 'offset': -45},
+    '4': {'angle': 120, 'offset': -60},
+    '5': {'angle': 90, 'offset': -45},
+    '6': {'angle': 180, 'offset': -90}
 }
 
 
