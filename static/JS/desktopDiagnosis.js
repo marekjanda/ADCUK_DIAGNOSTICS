@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     document.getElementById('ms').querySelector('h4').innerHTML = secondarySymptoms[p][el.value];
                 } else {
                     document.getElementById('ms').querySelector('h4').innerHTML = primarySymptoms[el.value];
-                    //document.getElementById('secondSymptomURL').href = 'secondarysymptoms/'+el.value;
+                    document.getElementById('secondSymptomURL').href = 'secondarysymptoms/'+el.value;
                 }
             })
         })
