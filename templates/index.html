@@ -13,9 +13,18 @@
             <select id="secondSymptomSelect" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" >
                 <option selected style="text-align: center;"><h3>Select Second Symptom</h3></option>
             </select>  
+            <button type="button" onclick="alertvalue()" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Diagnose
+            </button> 
         {% else %}
             <h5 id="error" style="color: tomato;"></h5>
-            <input id="MainCause" class="preset1" type="range" data-width="800" data-height="800" data-angleOffset="270" data-angleRange="310" data-labels="{{ main_labels }}" />
+            <input id="MainCause" class="preset1" type="range" data-width="700" data-height="700" data-angleOffset="270" data-angleRange="310" data-labels="{{ main_labels }}" />
+            <a href="{{ url_for('secondarysymptoms', p=0) }}" id="secondSymptomURL">
+                <button type="button" class="btn btn-primary btn-lg" id="nButton"style="display: block;">Next</button>
+            </a> 
+            <button type="button" id="dButton" onclick="alertvalue()" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" style="display: none;">
+                Diagnose
+            </button>
         {% endif %}
     </div>    
     
@@ -25,16 +34,9 @@
     <div class="col col-sm-12">
         <!--<button id='start' onclick="alertvalue()">Diagnose</button>-->
         {% if mobile %}
-            <button type="button" onclick="alertvalue()" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                Diagnose
-            </button> 
+            
         {% else %}
-            <a href="{{ url_for('secondarysymptoms', p=0) }}" id="secondSymptomURL">
-                <button type="button" class="btn btn-primary btn-lg" id="nButton"style="display: block;">Next</button>
-            </a> 
-            <button type="button" id="dButton" onclick="alertvalue()" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" style="display: none;">
-                Diagnose
-            </button>
+            
         {% endif %}
     </div>
 </div>
