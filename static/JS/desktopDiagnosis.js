@@ -9,11 +9,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log(el.value + ": " + secondarySymptoms[el.value]);
                 s = el.value;
                 if (document.getElementById('sectionTitle').innerHTML == 'Select Secondary Symptoms'){
-                    let p = document.getElementById('sectionTitle').dataset.primary;
-                    document.getElementById('ms').querySelector('h4').innerHTML = secondarySymptoms[p][el.value];
+                    p = document.getElementById('sectionTitle').dataset.primary;
+                    document.getElementById('ms').querySelector('h4').innerHTML = secondarySymptoms[p][transferIndex(p,s)];
                 } else {
                     document.getElementById('ms').querySelector('h4').innerHTML = primarySymptoms[el.value];
-                    document.getElementById('secondSymptomURL').href = 'secondarysymptoms/'+el.value;
+                    if (el.value == "6") {
+                        p = el.value;
+                        document.getElementById('nButton').style.display = "none";
+                        document.getElementById('dButton').style.display = "";
+                    } else {
+                        document.getElementById('secondSymptomURL').href = 'secondarysymptoms/'+el.value;
+                        document.getElementById('nButton').style.display = "";
+                        document.getElementById('dButton').style.display = "none";
+                    }
                 }
             })
         })
@@ -29,14 +37,14 @@ function alertvalue() {
     let mainCause = document.getElementById('MainCause');
     let secondaryCause = document.getElementById('secondSymptomSelect');
     
-    if (secondaryCause.value == 'Select Second Symptom') {
+    if (secondaryCause && secondaryCause.value == 'Select Second Symptom') {
         document.getElementById('error').innerHTML ='Please Select Secondary Symptom!';
         
         document.getElementById("HP").innerHTML = '<h5 id="error" style="color: tomato;">Please Select Secondary Symptom!</h5>';
         document.getElementById("LP").innerHTML = '<h5 id="error" style="color: tomato;">Please Select Secondary Symptom!</h5>';
         return false;
     }
-    console.log(secondaryCause.value);
+    //console.log(secondaryCause.value);
     //alert("Main Cause: " + mainCause.value + "\n" + "Secondary Cause: " + secondaryCause.value);
 
     // Create xmlhttprequest
@@ -85,8 +93,15 @@ function alertvalue() {
     };
     const data = new FormData();
     console.log('FormData created');
+    console.log("Primary: " + p);
     data.append('primary', p);
-    data.append('secondary', transferIndex(p, s));
+    if (p == "6") {
+        console.log("Primary is 6")
+        data.append('secondary', "12");
+    } else{
+        data.append('secondary', transferIndex(p, s));
+    }
+    
     console.log('Data appended');
     diagnosticRequest.send(data);
     console.log('Diagnostic request sent');
@@ -94,29 +109,56 @@ function alertvalue() {
 }
 
 function transferIndex(p, s) {
+    // Transfers secondary symptom select menu value to match back-end data structures
     switch (p) {
         case "0":
+            s = s;
+            break;
+        case "1":
             if (s == "0"){
                 s = "4";
             } else {
                 s = "5";
             }
             break;
-        case "1":
-            break;
         case "2":
+            if (s == "0"){
+                s = "6";
+            } else {
+                s = "4";
+            }
             break;   
         case "3":
+            if (s == "0"){
+                s = "7";
+            } else {
+                s = "8";
+            }
             break; 
         case "4":
+            if (s == "0"){
+                s = "7";
+            } else if (s =="1") {
+                s = "8";
+            } else {
+                s = "9";
+            }
             break;
         case "5":
+            if (s == "0"){
+                s = "10";
+            } else {
+                s = "11";
+            }
             break;
         case "6":
+            s = "12";
             break;
         default:
             break;
     }
+    console.log("Secondary: " + s);
+    return s;
 }
 
 

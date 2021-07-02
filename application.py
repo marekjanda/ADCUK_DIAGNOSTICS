@@ -48,11 +48,14 @@ def symptoms():
 def diagnose():
     ''' Receives symptoms via xmlhttp request and return json with probable causes and status'''
     if request.method == "POST":
-        primary = request.form.get('primary')
+        primary = request.form.get('primary')    
         secondary = request.form.get('secondary')
+        if primary == "6":
+            secondary = "12"
         if secondary == 'Select Second Symptom':
             resp = {'status': "ERROR"}
         else:
+            print(f"Diagnosis for {primary_symptoms[primary]} and {secondary_symptoms[secondary]}")
             #print(primary_symptoms[primary])
             #print(f"{secondary}:  {secondary_symptoms[secondary]}")
             diagnosis = diagnostics[(primary,secondary)]
