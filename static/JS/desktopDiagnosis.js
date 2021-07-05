@@ -92,6 +92,9 @@ function alertvalue() {
         return false;
     };
     const data = new FormData();
+    if (!p || p > 6) {
+        p = document.getElementById('MainCause').value;
+    }
     console.log('FormData created');
     console.log("Primary: " + p);
     data.append('primary', p);
