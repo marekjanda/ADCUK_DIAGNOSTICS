@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
         Array.prototype.slice.call(document.getElementsByClassName('preset' + i)).forEach(function(el) {
             new Knob(el, new Ui['P' + i]());
             s = el.value;
-            document.getElementById('ms').querySelector('h4').innerHTML = secondarySymptoms[p][transferIndex(p,s)];
+            document.getElementById('ms').querySelector('h4').innerHTML = primarySymptoms[el.value]
             el.addEventListener('change', function  () {
                 //update_options(el.value);
                 console.log(el.value + ": " + secondarySymptoms[el.value]);
