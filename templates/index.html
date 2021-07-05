@@ -5,8 +5,9 @@
     <p id='sectionTitle'><h3>Select Symptoms</h3></p>
     
     <div class="col col-sm-12 col-lg-12" style="text-align: center; justify-content: center;">
-        <div id='ms'><h4>Main Symptom</h4></div>
+       
         {% if mobile %}
+        <div id='ms'><h4>Main Symptom</h4></div>
             <input class="preset5" id="MainCause" type="range" data-width="350" data-height="350" data-angleOffset="128" data-angleRange="310" data-labels="Symptom1,Symptom2,Symptom3, Symptom4,Symptom5,Symptom6,Symptom6" />
             <h3>Secondary Symptom</h3>
             <h5 id="error" style="color: tomato;"></h5>
@@ -17,6 +18,7 @@
                 Diagnose
             </button> 
         {% else %}
+        <div id='ms'><h4>High Delivery Guage</h4></div>
             <h5 id="error" style="color: tomato;"></h5>
             <input id="MainCause" class="preset1" type="range" data-width="700" data-height="700" data-angleOffset="270" data-angleRange="310" data-labels="{{ main_labels }}" />
             <a href="{{ url_for('secondarysymptoms', p=3) }}" id="secondSymptomURL">
