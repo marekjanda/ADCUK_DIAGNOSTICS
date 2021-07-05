@@ -1,9 +1,15 @@
 let p;
 let s;
+
 document.addEventListener('DOMContentLoaded', () => {
+    if (document.getElementById('sectionTitle').innerHTML == 'Select Secondary Symptoms'){
+        p = document.getElementById('sectionTitle').dataset.primary;
+    }
     for (var i = 1; i < 6; i++) {
         Array.prototype.slice.call(document.getElementsByClassName('preset' + i)).forEach(function(el) {
             new Knob(el, new Ui['P' + i]());
+            s = el.value;
+            document.getElementById('ms').querySelector('h4').innerHTML = secondarySymptoms[p][transferIndex(p,s)];
             el.addEventListener('change', function  () {
                 //update_options(el.value);
                 console.log(el.value + ": " + secondarySymptoms[el.value]);
