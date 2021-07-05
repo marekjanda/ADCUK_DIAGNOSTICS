@@ -1,3 +1,17 @@
+/**
+* Just a lazy way to convert all inputs into knobs.
+* Normally you would write `new Knob(document.getElementById('someIdHere'), new Ui.P1());` to create a knob.
+*/
+ for (var i = 1; i < 6; i++) {
+    Array.prototype.slice.call(document.getElementsByClassName('preset' + i)).forEach(function(el) {
+        new Knob(el, new Ui['P' + i]());
+        el.addEventListener('change', function  () {
+          console.log(el.value)
+        })
+        
+    })
+}
+
 function alertvalue() {
     let spinnerTemplate = Handlebars.compile(document.querySelector("#spinners").innerHTML);
     let spinners = spinnerTemplate();
