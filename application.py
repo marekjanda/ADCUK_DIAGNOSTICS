@@ -35,7 +35,7 @@ def secondarysymptoms(p):
     for key in secondary:
         labels += f"{secondary[key]},"
     labels = labels[:-1]
-    return render_template("secondary.html", secondary_labels=labels, angle=angle, offset=offset, primary=primary_symptoms[p], p=p)
+    return render_template("secondary.html", secondary_labels=labels, angle=angle, offset=offset, primary=primary_symptoms[p], p=p, primary_symptoms=primary_symptoms)
 
 @app.route("/symptoms", methods=["POST", "GET"])
 def symptoms():

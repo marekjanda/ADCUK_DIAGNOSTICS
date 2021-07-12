@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 //update_options(el.value);
                 console.log(el.value + ": " + secondarySymptoms[el.value]);
                 s = el.value;
-                if (document.getElementById('sectionTitle').innerHTML == 'Select Secondary Symptoms'){
+                if (document.getElementById('sectionTitle').dataset.primary){
                     p = document.getElementById('sectionTitle').dataset.primary;
                     document.getElementById('ms').querySelector('h4').innerHTML = secondarySymptoms[p][transferIndex(p,s)];
                 } else {
@@ -99,7 +99,7 @@ function alertvalue() {
     };
     const data = new FormData();
     if (!p || p > 6) {
-        p = document.getElementById('MainCause').value;
+        p = document.getElementById('sectionTitle').dataset.primary;
     }
     console.log('FormData created');
     console.log("Primary: " + p);
